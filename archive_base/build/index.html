@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/style.min.css" />
+    <title>IndexedDB notes</title>
+  </head>
+  <body class="body">
+    <main>
+      <section>
+        <article>
+          <h1 class="header">IndexedDB notes</h1>
+          <form
+            action=""
+            method="post"
+            enctype="multipart/form-data"
+            class="form"
+          >
+            <input
+              id="newmessage"
+              type="file"
+              name="files[]"
+              multiple
+              webkitdirectory
+              required
+            />
+            <button onclick="submitNote()" class="create">Создать архив</button>
+          </form>
+        </article>
+        <article id="notes"></article>
+      </section>
+    </main>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.0/jszip.js"></script> -->
+    <script src="./js/bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.body {
+  background-color: cornflowerblue;
+}
+
+.header {
+  margin-top: 80px;
+  margin-bottom: 50px;
+  font-size: 50px;
+  color: lightpink;
+}
+
+.form {
+  margin-bottom: 30px;
+}
+
+.create {
+  background-color: darkgreen;
+}
+
+.zip {
+  background-color: darkseagreen;
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: 17px;
+  position: relative;
+}
+
+.btnDelete {
+  background-color: red;
+}
+
+.download {
+  text-decoration: none;
+  outline: none;
+}
+
+.view {
+  background-color: darkgreen;
+}
+
+.zip,
+.create,
+.btnDelete,
+.view,
+.fileList {
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
+.fileList {
+  position: absolute;
+  left: 60%;
+  border: 0;
+}
+
+.create,
+.btnDelete {
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
+.header,
+.create,
+.btnDelete {
+  font-weight: bolder;
+}
+
+.zip,
+.view {
+  font-weight: bold;
+}
+
+.create,
+.btnDelete,
+.view,
+.fileList {
+  color: white;
+}
