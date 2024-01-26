@@ -1,55 +1,56 @@
-let gulp = require("gulp"),
-  browserSync = require("browser-sync").create(),
-  prefixer = require("gulp-autoprefixer"),
-  cssmin = require("gulp-clean-css"),
-  uglify = require("gulp-uglify"),
-  fileinclude = require("gulp-file-include"),
-  gcmq = require("gulp-group-css-media-queries");
-concat = require("gulp-concat");
+const browserSync = require("browser-sync").create();
+const autoprefixer = require("gulp-autoprefixer");
+const htmlreplace = require("gulp-html-replace");
+const cleanCSS = require("gulp-clean-css");
+const htmlmin = require("gulp-htmlmin");
+const uglify = require("gulp-uglify");
+const concat = require("gulp-concat");
+const gulp = require("gulp");
 
-gulp.task("html_build", function (done) {
-  return gulp
+gulp.task("build-html", () =>
+  gulp
     .src("src/*.html")
-    .pipe(fileinclude())
+    .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(
+      htmlreplace({
+        css: "./assets/css/style.min.css",
+        js: "./assets/js/bundle.min.js",
+      })
+    )
     .pipe(gulp.dest("build/"))
-    .pipe(browserSync.stream());
-  done();
-});
+    .pipe(browserSync.stream())
+);
 
-gulp.task("css_build", function (done) {
-  return gulp
-    .src("src/css/*.css")
+gulp.task("build-css", () =>
+  gulp
+    .src("src/assets/css/*.css")
     .pipe(concat("style.min.css"))
-    .pipe(prefixer())
-    .pipe(gcmq())
-    .pipe(cssmin())
-    .pipe(gulp.dest("build/css/"))
-    .pipe(browserSync.stream());
-  done();
-});
+    .pipe(autoprefixer())
+    .pipe(cleanCSS())
+    .pipe(gulp.dest("build/assets/css/"))
+    .pipe(browserSync.stream())
+);
 
-gulp.task("js_build", function (done) {
-  return gulp
-    .src("src/js/*.js")
+gulp.task("build-js", () =>
+  gulp
+    .src("src/assets/js/*.js")
     .pipe(concat("bundle.min.js"))
-    .pipe(fileinclude())
     .pipe(uglify())
-    .pipe(gulp.dest("build/js/"))
-    .pipe(browserSync.stream());
-  done();
-});
+    .pipe(gulp.dest("build/assets/js/"))
+    .pipe(browserSync.stream())
+);
 
-gulp.task("webServer", function (done) {
+gulp.task("browserSync", () => {
   browserSync.init({
     server: "build/",
   });
-  gulp.watch("src/**/*.html", gulp.series("html_build"));
-  gulp.watch("src/**/*.css", gulp.series("css_build"));
-  gulp.watch("src/**/*.js", gulp.series("js_build"));
-  done();
+
+  gulp.watch("src/*.html", gulp.series("build-html"));
+  gulp.watch("src/assets/css/*.css", gulp.series("build-css"));
+  gulp.watch("src/assets/js/*.js", gulp.series("build-js"));
 });
 
 gulp.task(
   "default",
-  gulp.series("html_build", "css_build", "js_build", "webServer")
+  gulp.series("build-html", "build-css", "build-js", "browserSync")
 );
