@@ -1,3 +1,3 @@
-module.exports = function isEmpty (arr) {
-  return arr.length ? false : true
-}
+module.exports = function isEmpty(arr) {
+  return arr.length ? false : true;
+};

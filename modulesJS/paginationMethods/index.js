@@ -1,5 +1,5 @@
-const make = require('./make')
+const make = require("./make");
 
 module.exports = {
-  make
-}
+  make,
+};

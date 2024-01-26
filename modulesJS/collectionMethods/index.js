@@ -1,21 +1,21 @@
-const every = require('./every')
-const filter = require('./filter')
-const indexOf = require('./indexOf')
-const isEmpty = require('./isEmpty')
-const make = require('./make')
-const map = require('./map')
-const reduce = require('./reduce')
-const toJSON = require('./toJSON')
-const toQweryString = require('./toQweryString')
+const toQueryString = require("./toQueryString");
+const indexOf = require("./indexOf");
+const isEmpty = require("./isEmpty");
+const toJSON = require("./toJSON");
+const reduce = require("./reduce");
+const filter = require("./filter");
+const every = require("./every");
+const make = require("./make");
+const map = require("./map");
 
 module.exports = {
-  every,
-  filter,
+  toQueryString,
   indexOf,
   isEmpty,
+  toJSON,
+  reduce,
+  filter,
+  every,
   make,
   map,
-  reduce,
-  toJSON,
-  toQweryString
-}
+};

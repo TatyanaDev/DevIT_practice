@@ -1,3 +1,3 @@
-module.exports = function toJSON (arr) {
-  return JSON.stringify(arr)
-}
+module.exports = function toJSON(arr) {
+  return JSON.stringify(arr);
+};
