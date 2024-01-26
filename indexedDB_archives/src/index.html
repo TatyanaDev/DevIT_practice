@@ -20,7 +20,7 @@
             class="form"
           >
             <input
-              id="newmessage"
+              id="input"
               type="file"
               name="files[]"
               multiple
@@ -28,12 +28,13 @@
               required
             />
 
-            <button onclick="submitNote(event)" class="create">
+            <button onclick="createArchive(event)" class="create">
               Create an archive
             </button>
           </form>
         </article>
-        <article id="notes"></article>
+
+        <article id="archives"></article>
       </section>
     </main>
 

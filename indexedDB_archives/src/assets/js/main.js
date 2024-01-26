@@ -1,147 +1,163 @@
 "use strict";
 
-const dbReq = indexedDB.open("myDatabase", 2);
+const databaseReq = indexedDB.open("database", 2);
 const objectFile = {};
 const objectURL = {};
-let db;
+let database;
 
-dbReq.onupgradeneeded = (event) => {
-  db = event.target.result;
+databaseReq.onupgradeneeded = ({ target }) => {
+  database = target.result;
 
-  if (!db.objectStoreNames.contains("notes")) {
-    const notes = db.createObjectStore("notes", { autoIncrement: true });
+  if (!database.objectStoreNames.contains("archives")) {
+    const archives = database.createObjectStore("archives", {
+      autoIncrement: true,
+    });
 
-    notes.createIndex("timestamp", "timestamp");
+    archives.createIndex("timestamp", "timestamp");
   }
 };
 
-const displayNotes = (notes) => {
-  let listHTML = '<ul class="zipList">';
+const displayArchives = (archives) => {
+  let archiveList = '<ul class="zipList">';
 
-  notes.forEach((note) => {
-    const fileNames = note.fileNames ? note.fileNames.join(", ") : "No files";
+  archives.forEach((archive) => {
+    const fileNames = archive.fileNames
+      ? archive.fileNames.join(", ")
+      : "No files";
 
-    listHTML += `
+    archiveList += `
       <li class="zip">
-        <button class="btnDelete" onclick="deleteNote(${
-          note.timestamp
+        <button class="btnDelete" onclick="deleteArchive(${
+          archive.timestamp
         })">X</button>
-        ${note.myArchive[0].type} Размер архива: ${
-      note.myArchive[0].size
-    } байт Дата создания: ${new Date(note.timestamp).toLocaleString("ru")}
+
+        ${archive.archive[0].type} Archive size: ${
+      archive.archive[0].size
+    } bytes Creation date: ${new Date(archive.timestamp).toLocaleString("ru")}
         <a href="${
-          objectURL[note.timestamp]
-        }" class="download" download="all-files.zip">Скачать</a>
-        <button class="view" onclick="toggleHidden(${
-          note.timestamp
-        })">Просмотреть</button>
+          objectURL[archive.timestamp]
+        }" class="download" download="archive.zip">Download</a>
+
+        <button class="view" onclick="toggleHiding(${
+          archive.timestamp
+        })">Preview</button>
+
         <p class="fileList" data-id="${
-          note.timestamp
+          archive.timestamp
         }" style="display: none;">${fileNames}</p>
       </li>`;
   });
 
-  listHTML += "</ul>";
+  archiveList += "</ul>";
 
-  document.getElementById("notes").innerHTML = listHTML;
+  document.getElementById("archives").innerHTML = archiveList;
 };
 
-const getAndDisplayNotes = (db) => {
-  const tx = db.transaction(["notes"], "readonly");
-  const store = tx.objectStore("notes");
-  const req = store.openCursor();
-  const allNotes = [];
+const getAndDisplayArchives = (database) => {
+  const transaction = database.transaction(["archives"], "readonly");
+  const store = transaction.objectStore("archives");
+  const cursor = store.openCursor();
+  const allArchives = [];
 
-  req.onsuccess = (event) => {
-    let cursor = event.target.result;
+  cursor.onsuccess = ({ target }) => {
+    const result = target.result;
 
-    if (cursor) {
-      allNotes.push(cursor.value);
-      cursor.continue();
+    if (result) {
+      allArchives.push(result.value);
+      result.continue();
     } else {
-      displayNotes(allNotes);
+      displayArchives(allArchives);
     }
   };
 
-  req.onerror = (event) =>
-    alert("Error in cursor request: " + event.target.errorCode);
+  cursor.onerror = ({ target }) =>
+    alert("Error in cursor request: " + target.errorCode);
 };
 
-dbReq.onsuccess = (event) => {
-  db = event.target.result;
+databaseReq.onsuccess = ({ target }) => {
+  database = target.result;
 
-  getAndDisplayNotes(db);
+  getAndDisplayArchives(database);
 };
 
-dbReq.onerror = (event) => console.error("Database error:", event.target.error);
+databaseReq.onerror = ({ target }) =>
+  console.error("Database error:", target.error);
 
-const addStickyNote = (db, content, valueURL, filesName) => {
-  const tx = db.transaction(["notes"], "readwrite");
-  const store = tx.objectStore("notes");
+const addStickyArchive = (database, content, valueURL, fileNames) => {
+  const transaction = database.transaction(["archives"], "readwrite");
+  const store = transaction.objectStore("archives");
 
-  let note = {
-    myArchive: [content],
+  const archive = {
+    archive: [content],
     timestamp: Date.now(),
-    fileNames: filesName,
+    fileNames,
   };
 
-  objectURL[note.timestamp] = valueURL;
-  objectFile[note.timestamp] = filesName.join(", ");
+  objectFile[archive.timestamp] = fileNames.join(", ");
+  objectURL[archive.timestamp] = valueURL;
 
-  store.add(note).onerror = (event) =>
-    alert("Error adding note: " + event.target.errorCode);
+  store.add(archive).onerror = ({ target }) =>
+    alert("Error adding archive: " + target.errorCode);
 
-  tx.oncomplete = () => getAndDisplayNotes(db);
+  transaction.oncomplete = () => getAndDisplayArchives(database);
 };
 
-const submitNote = (event) => {
+const createArchive = (event) => {
   event.preventDefault();
 
-  const message = document.getElementById("newmessage");
-  const files = message.files;
+  const input = document.getElementById("input");
+  const files = input.files;
 
   if (!files.length) {
     return;
   }
 
   const zip = new JSZip();
-  const filesName = [];
+  const fileNames = [];
 
   Array.from(files).forEach((file) => {
     zip.file(file.name, file);
-    filesName.push(file.name);
+
+    fileNames.push(file.name);
   });
 
-  message.value = "";
+  input.value = "";
 
   zip.generateAsync({ type: "blob" }).then((content) => {
     const valueURL = URL.createObjectURL(content);
 
-    addStickyNote(db, content, valueURL, filesName);
+    addStickyArchive(database, content, valueURL, fileNames);
   });
 };
 
-const toggleHidden = (timestamp) => {
-  const fileListElement = document.querySelector(`p[data-id='${timestamp}']`);
+const toggleHiding = (timestamp) => {
+  const fileNames = document.querySelector(`p[data-id='${timestamp}']`);
 
-  if (fileListElement) {
-    fileListElement.style.display =
-      fileListElement.style.display === "none" ? "block" : "none";
+  if (fileNames) {
+    fileNames.style.display =
+      fileNames.style.display === "none" ? "block" : "none";
   }
 };
 
-const deleteNote = (timestamp) => {
-  const tx = db.transaction(["notes"], "readwrite");
-  const store = tx.objectStore("notes");
+const deleteArchive = (timestamp) => {
+  const transaction = database.transaction(["archives"], "readwrite");
+  const store = transaction.objectStore("archives");
   const index = store.index("timestamp");
 
-  index.getKey(timestamp).onsuccess = () =>
-    (store.delete(this.result).onsuccess = () => {
-      console.log("Note deleted successfully.");
+  index.getKey(timestamp).onsuccess = ({ target }) => {
+    const key = target.result;
 
-      getAndDisplayNotes(db);
-    });
+    if (key) {
+      store.delete(key).onsuccess = () => {
+        console.log("Archive deleted successfully");
 
-  tx.onerror = (event) =>
-    alert("Error in delete transaction: " + event.target.errorCode);
+        getAndDisplayArchives(database);
+      };
+    } else {
+      console.log("No matching record found");
+    }
+  };
+
+  transaction.onerror = ({ target }) =>
+    alert("Archive delete error: " + target.errorCode);
 };
