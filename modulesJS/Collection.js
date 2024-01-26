@@ -23,7 +23,7 @@ const {
   unique
 } = require('./ArreyHelpers')
 
-const { sort, sortBy, sortByDesc, sortDesc } = require('./sortArrey')
+const { sort, sortBy, sortByDesc, sortDesc } = require('./sortingMethods')
 
 const Collection = function () {
   this.arr = []
