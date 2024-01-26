@@ -8,7 +8,7 @@ const {
   reduce,
   toJSON,
   toQweryString
-} = require('./methodsCollection')
+} = require('./collectionMethods')
 
 const {
   avg,
