@@ -1,85 +1,86 @@
 * {
   box-sizing: border-box;
-  font-family: sans-serif;
-  text-align: center;
 }
 
-.body {
-  background-color: cornflowerblue;
+body {
+  background: cornflowerblue;
+  font-family: sans-serif;
+  justify-content: center;
+  display: flex;
+  padding: 0;
+  margin: 0;
 }
 
 .header {
-  margin-top: 80px;
   margin-bottom: 50px;
-  font-size: 50px;
   color: lightpink;
+  font-weight: 600;
+  font-size: 50px;
 }
 
-.form {
-  margin-bottom: 30px;
+.formWrapper {
+  margin: 80px auto 30px;
+  text-align: center;
 }
 
-.create {
-  background-color: darkgreen;
-}
-
-.zip {
-  background-color: darkseagreen;
-  padding: 20px;
-  max-width: 900px;
-  margin: 0 auto;
-  font-size: 17px;
-  position: relative;
-}
-
-.btnDelete {
-  background-color: red;
-}
-
-.download {
-  text-decoration: none;
-  outline: none;
-}
-
-.view {
-  background-color: darkgreen;
-}
-
-.zip,
-.create,
-.btnDelete,
-.view,
-.fileList {
-  border: 2px solid white;
-  border-radius: 5px;
-}
-
-.fileList {
-  position: absolute;
-  left: 60%;
-  border: 0;
-}
-
-.create,
-.btnDelete {
+.createBtn,
+.deleteBtn {
   padding: 5px 10px;
   font-size: 20px;
 }
 
-.header,
-.create,
-.btnDelete {
-  font-weight: bolder;
+.archive {
+  background: darkseagreen;
+  border: 2px solid white;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  font-size: 17px;
+  padding: 20px;
+  width: 700px;
 }
 
-.zip,
-.view {
-  font-weight: bold;
+.infoWrapper {
+  justify-content: space-between;
+  margin-bottom: 5px;
+  display: flex;
 }
 
-.create,
-.btnDelete,
-.view,
-.fileList {
+.functionalWrapper {
+  text-align: end;
+}
+
+.functionalWrapper div {
+  align-items: center;
+  display: flex;
+}
+
+.deleteBtn {
+  margin-bottom: 5px;
+  background: red;
+}
+
+.downloadLink {
+  text-decoration: none;
+  margin-right: 5px;
+  outline: none;
+}
+
+.createBtn,
+.previewBtn {
+  background: green;
+}
+
+.createBtn,
+.deleteBtn,
+.previewBtn {
+  border: 2px solid white;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.createBtn,
+.deleteBtn,
+.previewBtn,
+.fileNames {
   color: white;
 }

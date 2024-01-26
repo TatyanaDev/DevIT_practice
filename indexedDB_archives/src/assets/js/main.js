@@ -18,7 +18,7 @@ databaseReq.onupgradeneeded = ({ target }) => {
 };
 
 const displayArchives = (archives) => {
-  let archiveList = '<ul class="zipList">';
+  let archiveList = "<ul>";
 
   archives.forEach((archive) => {
     const fileNames = archive.fileNames
@@ -26,31 +26,31 @@ const displayArchives = (archives) => {
       : "No files";
 
     archiveList += `
-      <li class="zip">
-        <button class="btnDelete" onclick="deleteArchive(${
-          archive.timestamp
-        })">X</button>
+      <li class="archive">
+        <div class="infoWrapper">
+          <div>
+            <p>Type: ${archive.archive[0].type};</p>
+            <p>Size: ${archive.archive[0].size} bytes;</p>
+            <p>Creation date: ${new Date(archive.timestamp).toLocaleDateString("ru")};</p>
+            <p>Creation time: ${new Date(archive.timestamp).toLocaleTimeString("ru")};</p>
+          </div>
 
-        ${archive.archive[0].type} Archive size: ${
-      archive.archive[0].size
-    } bytes Creation date: ${new Date(archive.timestamp).toLocaleString("ru")}
-        <a href="${
-          objectURL[archive.timestamp]
-        }" class="download" download="archive.zip">Download</a>
+          <div class="functionalWrapper">
+            <button class="deleteBtn" onclick="deleteArchive(${archive.timestamp})">X</button>
+              <div>
+                <a href="${objectURL[archive.timestamp]}" class="downloadLink" download="archive.zip">Download</a>
+                <button class="previewBtn" onclick="toggleHiding(${archive.timestamp})">Preview</button>
+              </div>
+          </div>
+        </div>
 
-        <button class="view" onclick="toggleHiding(${
-          archive.timestamp
-        })">Preview</button>
-
-        <p class="fileList" data-id="${
-          archive.timestamp
-        }" style="display: none;">${fileNames}</p>
+        <p class="fileNames" data-id="${archive.timestamp}" style="display: none;">${fileNames}</p>
       </li>`;
   });
 
   archiveList += "</ul>";
 
-  document.getElementById("archives").innerHTML = archiveList;
+  document.getElementById("archiveContainer").innerHTML = archiveList;
 };
 
 const getAndDisplayArchives = (database) => {

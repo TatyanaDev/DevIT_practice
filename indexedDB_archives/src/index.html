@@ -7,18 +7,13 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>IndexedDB archives</title>
   </head>
-  <body class="body">
+  <body>
     <main>
       <section>
-        <article>
+        <article class="formWrapper">
           <h1 class="header">IndexedDB archives</h1>
 
-          <form
-            action=""
-            method="post"
-            enctype="multipart/form-data"
-            class="form"
-          >
+          <form action="" method="post" enctype="multipart/form-data">
             <input
               id="input"
               type="file"
@@ -28,13 +23,13 @@
               required
             />
 
-            <button onclick="createArchive(event)" class="create">
+            <button onclick="createArchive(event)" class="createBtn">
               Create an archive
             </button>
           </form>
         </article>
 
-        <article id="archives"></article>
+        <article id="archiveContainer"></article>
       </section>
     </main>
 
