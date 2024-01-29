@@ -27,7 +27,7 @@ const array_normalize = (arr, shema, transform = false) => {
         return arr
     }
   } else {
-    switch (shema) {
+    switch (schema) {
       case transform && 'string':
         return arr
           .filter(v => typeof v !== 'object' && typeof v !== 'boolean')
