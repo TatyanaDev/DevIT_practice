@@ -26,11 +26,7 @@ const array_normalize = (arr, schema, transform = false) => {
   } else {
     switch (schema) {
       case transform && "string":
-        return arr
-          .filter(
-            (value) => typeof value !== "object" && typeof value !== "boolean"
-          )
-          .map((value) => String(value));
+        return arr.filter((value) => typeof value !== "object" && typeof value !== "boolean").map((value) => String(value));
       case "string":
         return arr.filter((value) => typeof value === "string");
       case "bool":
