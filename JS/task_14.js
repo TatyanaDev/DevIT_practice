@@ -10,9 +10,7 @@ const numberHelper = (arr) => arr.filter((value) => typeof value === "number");
 
 const array_normalize = (arr, schema, transform = false) => {
   if (typeof schema === "object") {
-    const helpersSchema = String(Object.values(schema));
-
-    switch (helpersSchema) {
+    switch (String(Object.values(schema))) {
       case transform && "float":
         return ageHelper(arr);
       case "float":
