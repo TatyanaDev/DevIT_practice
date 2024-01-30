@@ -26,7 +26,7 @@ lenght;
 Collection.make([arr: array = []]): Collection  
 Collection.map(arr: array, callback: function): Collection  
 Collection.filter(arr: array, callback: function): Collection  
-Collection.reduce(arr: array, callback: function [initial: any]): Collection  
+Collection.reduce(arr: array, callback: function, [initial: any]): Collection  
 Collection.every(arr: array, callback: function): void  
 Collection.indexOf(arr: array, searchElement: string, [fromIndex: number = 0]): number  
 Collection.toJSON(arr: array): string  
