@@ -1,5 +1,5 @@
-module.exports = function skipUntil(arr, value) {
-  const searchTruncated = arr.indexOf(value);
+const array_skip_until = require("../../JS/task_10");
 
-  return this.make(arr.slice(searchTruncated));
+module.exports = function skipUntil(arr, value) {
+  return this.make(array_skip_until(arr, value));
 };

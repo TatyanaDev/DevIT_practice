@@ -1,5 +1,5 @@
-module.exports = function fill(lenght, value) {
-  array = [];
-  array.length = lenght;
-  return this.make(array.fill(value));
+const array_fill = require("../../JS/task_17");
+
+module.exports = function fill(length, value) {
+  return this.make(array_fill(length, value));
 };

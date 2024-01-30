@@ -1,11 +1,11 @@
-const sort = require("./sort");
-const sortBy = require("./sortBy");
 const sortByDesc = require("./sortByDesc");
 const sortDesc = require("./sortDesc");
+const sortBy = require("./sortBy");
+const sort = require("./sort");
 
 module.exports = {
-  sort,
-  sortBy,
   sortByDesc,
   sortDesc,
+  sortBy,
+  sort,
 };

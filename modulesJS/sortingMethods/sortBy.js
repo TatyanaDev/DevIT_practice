@@ -1,11 +1,9 @@
-module.exports = function sortBy(arr, column, compareFunction = false) {
-  const copy = arr.slice(0);
-
-  if (compareFunction) {
-    copy.sort(compareFunction);
-    return this.make(copy);
+module.exports = function sortBy(arr, column, compareFunction) {
+  if (typeof compareFunction === "function") {
+    arr.sort(compareFunction);
+    return this.make(arr);
   } else {
-    copy.sort((a, b) => a[column] - b[column]);
-    return this.make(copy);
+    arr.sort((a, b) => a[column] - b[column]);
+    return this.make(arr);
   }
 };

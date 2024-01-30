@@ -1,13 +1,5 @@
+const array_pluck = require("../../JS/task_15");
+
 module.exports = function pluck(arr, path) {
-  const pathSplit = path.split(".");
-
-  return arr.map((item) => {
-    let sliceData = item;
-
-    for (const data of pathSplit) {
-      sliceData = sliceData[data];
-    }
-
-    return this.make(sliceData);
-  });
+  return this.make(array_pluck(arr, path))
 };

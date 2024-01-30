@@ -1,3 +1,3 @@
 module.exports = function every(arr, callback) {
-  arr.every(callback);
+  return arr.every(callback);
 };

@@ -1,5 +1,9 @@
+const { sort, sortBy, sortByDesc, sortDesc } = require("./sortingMethods");
 const {
   toQueryString,
+  transform,
+  sanitize,
+  toString,
   indexOf,
   isEmpty,
   toJSON,
@@ -9,7 +13,6 @@ const {
   make,
   map,
 } = require("./collectionMethods");
-
 const {
   normalize,
   skipUntil,
@@ -23,14 +26,13 @@ const {
   get,
 } = require("./arrayMethods");
 
-const { sort, sortBy, sortByDesc, sortDesc } = require("./sortingMethods");
-
 const Collection = function () {
   this.arr = [];
 
   Object.defineProperty(this, "length", {
-    get: () => this.arr.length,
-    set: () => null,
+    get: function () {
+      return this.arr.length;
+    },
   });
 };
 
@@ -76,19 +78,19 @@ Collection.prototype = {
   },
 
   transform: function (callback) {
-    return (this.arr = this.arr.map(callback)), this;
+    return transform(this, callback);
   },
 
   sanitize: function (callback) {
-    return (this.arr = this.arr.filter(callback)), this;
+    return sanitize(this, callback);
   },
 
   every: function (callback) {
-    every(this.arr, callback);
+    return Collection.every(this.arr, callback);
   },
 
   indexOf: function (searchElement, fromIndex = 0) {
-    return indexOf(this.arr, searchElement, fromIndex);
+    return Collection.indexOf(this.arr, searchElement, fromIndex);
   },
 
   toArray: function () {
@@ -96,19 +98,19 @@ Collection.prototype = {
   },
 
   toJSON: function () {
-    return toJSON(this.arr);
+    return Collection.toJSON(this.arr);
   },
 
-  toQweryString: function () {
-    return toQweryString(this.arr);
+  toQueryString: function () {
+    return Collection.toQueryString(this.arr);
   },
 
   toString: function () {
-    return this.arr.toString();
+    return toString(this.arr);
   },
 
   isEmpty: function () {
-    return isEmpty(this.arr);
+    return Collection.isEmpty(this.arr);
   },
 
   find: function (search) {
@@ -135,8 +137,8 @@ Collection.prototype = {
     return Collection.get(this.arr, path);
   },
 
-  normalize: function (shema, transform = false) {
-    return Collection.normalize(this.arr, shema, transform);
+  normalize: function (schema, transform = false) {
+    return Collection.normalize(this.arr, schema, transform);
   },
 
   pluck: function (path) {
