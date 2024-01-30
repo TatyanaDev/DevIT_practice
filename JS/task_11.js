@@ -7,24 +7,24 @@ const array_contains = (arr, search) => {
     return null;
   }
 
+  let searchPattern = search;
+
   if (typeof search === "string") {
-    search = new RegExp(`^${search}$`);
+    searchPattern = new RegExp(`^${search}$`);
   }
 
-  arr = arr.flat(Infinity);
+  const containsElement = arr.flat(Infinity).some((el) => {
+    if (typeof el === "object" && el !== null) {
+      return Object.values(el).some((val) => searchPattern.test(String(val)));
+    }
 
-  return Boolean(
-    arr.filter((el) => {
-      if (typeof el === "object") {
-        return Object.values(el).filter((val) => search.test(val)).length;
-      }
+    return searchPattern.test(String(el));
+  });
 
-      return search.test(el);
-    }).length
-  );
+  return containsElement;
 };
 
-console.log(array_contains(testData4,/^raf.*/i))
-console.log(array_contains(testData4,/^azaza.*/i))
+console.log(array_contains(testData4, /^raf.*/i));
+console.log(array_contains(testData4, /^azaza.*/i));
 
 module.exports = array_contains;

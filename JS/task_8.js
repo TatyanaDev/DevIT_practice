@@ -6,24 +6,24 @@ const array_avg = (arr, skipNaN = false) => {
   const arrayOfNumbers = [];
 
   if (skipNaN) {
-    arr.filter((val) => {
+    arr.forEach((val) => {
       if (typeof val === "number") {
         arrayOfNumbers.push(val);
       }
     });
 
-    const avg = Math.round(arrayOfNumbers.reduce((acc, value) => acc + value / arr.length)) - 1;
-    
+    const avg = Math.round(arrayOfNumbers.reduce((acc, value) => acc + value, 0) / arr.length);
+
     return avg;
   } else {
-    arr.filter((val) => {
+    arr.forEach((val) => {
       if (typeof val === "number") {
         arrayOfNumbers.push(val);
       }
     });
 
-    const avg = Math.round(arrayOfNumbers.reduce((acc, value) => acc + value / arrayOfNumbers.length)) - 1;
-    
+    const avg = Math.round(arrayOfNumbers.reduce((acc, value) => acc + value, 0) / arrayOfNumbers.length);
+
     return avg;
   }
 };

@@ -3,6 +3,10 @@
 const { testData } = require("./data");
 
 const array_find = (arr, search) => {
+  if (!arr || !search) {
+    return null;
+  }
+
   let result;
 
   if (typeof search === "string") {
