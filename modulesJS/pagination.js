@@ -1,4 +1,4 @@
-const { make } = require("./methodsPagination");
+const { make } = require("./paginationMethods");
 
 const Pagination = function () {
   this.collection;
