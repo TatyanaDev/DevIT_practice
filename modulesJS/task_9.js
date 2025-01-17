@@ -1,66 +1,34 @@
-const { testData3 } = require("../js/data");
+const { testData3 } = require("../JS/data");
 
-const sort_by_skill = (arr) => {
-  const sorted = (arr) =>
-    Object.entries(arr)
-      .sort((a, b) => b[1] - a[1])
-      .reduce((r, [key, value]) => {
-        r[key] = value;
-        return r;
-      }, {});
-  const helper = (res) => Object.keys(sorted(res)).join("\n");
-  const resPhp = {};
-  const resJs = {};
-  const resMadness = {};
-  const resRage = {};
-  const name = arr.map((v) => v.name);
-  const php = arr.map((v) => v.skills.php);
-  const js = arr.map((v) => v.skills.js);
-  const madness = arr.map((v) => v.skills.madness);
-  const rage = arr.map((v) => v.skills.rage);
-  for (let i = 0; i < arr.length; i++) {
-    resPhp[name[i]] = php[i];
-    resJs[name[i]] = js[i];
-    resMadness[name[i]] = madness[i];
-    resRage[name[i]] = rage[i];
-  }
+// #9 На основании данных testData3 вывести последовательно в консоль имена программистов сгруппированных и отсортированных по их навыкам
 
-  return `----- PHP -----
-${helper(resPhp)}
------ JS ------
-${helper(resJs)}
---- Madness ---
-${helper(resMadness)}
----- Rage ----
-${helper(resRage)}`;
+const sort_and_group_by_skill = (data) => {
+  const skillMap = {};
+
+  data.forEach((person) => {
+    Object.keys(person.skills).forEach((skill) => {
+      if (!skillMap[skill]) {
+        skillMap[skill] = [];
+      }
+
+      skillMap[skill].push({
+        name: person.name,
+        level: person.skills[skill],
+      });
+    });
+  });
+
+  Object.keys(skillMap).forEach((skill) => {
+    console.log(`----- ${skill.toUpperCase()} -----`);
+
+    skillMap[skill].sort((a, b) => b.level - a.level);
+
+    skillMap[skill].forEach((person) => {
+      if (person.level > 0) {
+        console.log(person.name);
+      }
+    });
+  });
 };
 
-// sort_by_skill(testData3)
-// ----- PHP -----
-//   Colya
-//   Misha
-//   Dima
-//   Vasya
-//   Ashan
-//   Rafshan
-// ----- JS ------
-//   Ashan
-//   Dima
-//   Misha
-//   Rafshan
-//   Vasya
-//   Colya
-// --- Madness ---
-//   Vasya
-//   Ashan
-//   Misha
-//   Dima
-//   Colya
-//   Rafshan
-// ---- Rage ----
-//   Vasya
-//   Rafshan
-//   Colya
-//   Dima
-//   Misha
-//   Ashan
+sort_and_group_by_skill(testData3);

@@ -27,7 +27,7 @@ Collection.make([arr: array = []]): Collection
 Collection.map(arr: array, callback: function): Collection  
 Collection.filter(arr: array, callback: function): Collection  
 Collection.reduce(arr: array, callback: function, [initial: any]): Collection  
-Collection.every(arr: array, callback: function): void  
+Collection.every(arr: array, callback: function): boolean  
 Collection.indexOf(arr: array, searchElement: string, [fromIndex: number = 0]): number  
 Collection.toJSON(arr: array): string  
 Collection.toQueryString(arr: array): string  
@@ -41,7 +41,7 @@ objCollection.filter(callback: function): Collection
 objCollection.reduce(callback: function [initial: any]): Collection  
 objCollection.transform(callback: function): Collection  
 objCollection.sanitize(callback: function): Collection  
-objCollection.every(callback: function): void  
+objCollection.every(callback: function): boolean  
 objCollection.indexOf(searchElement: string, [fromIndex: number = 0]): number  
 objCollection.toJSON(): string  
 objCollection.toQueryString(): string  
@@ -51,7 +51,7 @@ objCollection.isEmpty(): boolean
 
 ### Пример:  
 ```
-let numbers = Collection.make([1, 2, 3, 4]);  
+const numbers = Collection.make([1, 2, 3, 4]);  
 numbers.map(item => item * 2).filter(item => item > 2).toJSON() // "[4,6,8]"  
 ```
 
@@ -112,7 +112,7 @@ objCollection.sortByDesc(column: string, [compareFunction: function]): Collectio
 ### Пример:  
 ```
 Collection.make([1, 10, 4, 60]).sort().values() // [1, 4, 10, 60]  
-Collection.make([{age: 1}, {age: 10}, {age: 4}, {age: 60}]).sort().values() // [{age: 1}, {age: 4}, {age: 10}, {age: 60}]  
+Collection.make([{age: 1}, {age: 10}, {age: 4}, {age: 60}]).sortBy("age").values() // [{age: 1}, {age: 4}, {age: 10}, {age: 60}]  
 ```
 
 # 4  
@@ -138,10 +138,10 @@ objPagination.count(): number
 ```
 Pagination.make(Collection.make([1, 2, 3, 4, 5, 6]), 5).page(2).values() // [6]  
 
-let objPagination = Pagination.make(Collection.make([1, 2, 3, 4, 5, 6]), 5)  
+const objPagination = Pagination.make(Collection.make([1, 2, 3, 4, 5, 6]), 5)  
 objPagination.page(2).values() // [6]  
-objPagination.paginate(1).page(2) // [2]  
-objPagination.page(2).values() // [6]  
+objPagination.paginate(1).page(2).values() // [2]  
+objPagination.page(2).values() // [2]  
 ```
 
 # 5  
@@ -186,7 +186,7 @@ objPagination.reset(): void
 
 ### Пример:  
 ```
-let objPagination = Collection.make([1, 2, 3, 4, 5, 6]).paginate(2);  
+const objPagination = Collection.make([1, 2, 3, 4, 5, 6]).paginate(1);  
 
 objPagination.current().values() // [1]  
 objPagination.next()  
@@ -201,7 +201,7 @@ objPagination.current().values() // [1]
 # 7  
 Вывести в консоль по 4 значения из переданного массива с интервалом в 2 секунды.  
 ```
-let arr = [1, 2, 3, 4, 5, 6, 7, 8, "Vasya", "|", "123", 9, 10, 11, 12, 13, 14, 15]  
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, "Vasya", "|", "123", 9, 10, 11, 12, 13, 14, 15]  
 ```
 
 # 8  
@@ -230,8 +230,8 @@ toPagination(data: any, limit: number): Pagination
 
 ### Пример:  
 ```
-toPagination([1,2], 1)->first()->toJSON() //"[1]"  
+toPagination([1, 2], 1)->first()->toJSON() //"[1]"  
 toPagination(Collection.make([1, 2]), 1)->first()->toJSON() //"[1]"  
 toPagination(false, 1)->first()->toJSON() //"[false]"  
-toPagination(false, true, 1, 2, 10)->first()->toJSON() //"[false,true,1,2]"  
+toPagination(Collection.make([false, true, 1, 2]), 4)->first()->toJSON() //"[false,true,1,2]"  
 ```

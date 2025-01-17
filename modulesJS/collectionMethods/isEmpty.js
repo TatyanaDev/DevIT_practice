@@ -1,3 +1,3 @@
 module.exports = function isEmpty(arr) {
-  return !Boolean(arr.length)
+  return arr.length === 0;
 };

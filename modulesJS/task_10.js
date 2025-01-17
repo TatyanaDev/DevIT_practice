@@ -1,15 +1,30 @@
-const { Collection, Pagination } = require("./task6");
+const { Collection, Pagination } = require("./task_1-6");
 
-const toPagination = function (data, limit) {
-  const data = [...arguments];
-  const limit = arguments[arguments.length - 1];
-  const copy = data.slice(0);
-  copy.pop();
-  const firstValue = copy[0];
+// #10 Сделать функцию, которая будет возвращать объект прототипа Pagination при любых переданных ему данных
 
-  if (Array.isArray(firstValue)) {
-    return Pagination.make(Collection.make(firstValue), limit);
-  } else if (firstValue instanceof Collection) {
-    return Pagination.make(firstValue, limit);
-  } else return Pagination.make(Collection.make(copy), limit);
+const toPagination = (data, limit) => {
+  let collection;
+
+  if (data instanceof Collection) {
+    collection = data;
+  } else {
+    let dataArray = Array.isArray(data) ? data : [data];
+
+    collection = new Collection(dataArray);
+  }
+
+  return new Pagination(collection, limit);
 };
+
+console.log(toPagination([1, 2], 1).first().toJSON());
+console.log(
+  toPagination(Collection.make([1, 2]), 1)
+    .first()
+    .toJSON()
+);
+console.log(toPagination(false, 1).first().toJSON());
+console.log(
+  toPagination(Collection.make([false, true, 1, 2]), 4)
+    .first()
+    .toJSON()
+);
