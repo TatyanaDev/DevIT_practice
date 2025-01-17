@@ -8,7 +8,7 @@ const toPagination = (data, limit) => {
   if (data instanceof Collection) {
     collection = data;
   } else {
-    let dataArray = Array.isArray(data) ? data : [data];
+    const dataArray = Array.isArray(data) ? data : [data];
 
     collection = new Collection(dataArray);
   }
